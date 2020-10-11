@@ -3,8 +3,8 @@
     <div class="container">
       <h1>ToDo</h1>
       <TaskCounter :count="tasks.length" />
-      <TaskForm />
-      <TaskList :tasks="tasks" />
+      <TaskForm @addTask="addTask" />
+      <TaskList :tasks="tasks" @deleteTask="deleteTask"/>
     </div>
   </div>
 </template>
@@ -34,6 +34,23 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    addTask: function(title) {
+      const task = {
+        id: +new Date(),
+        title,
+      }
+
+      this.tasks = [...this.tasks, task];
+    },
+    deleteTask: function (id) {
+      const tasks = this.tasks.filter(task => {
+        return task.id !== id;
+      })
+
+      this.tasks = tasks;
+    }
   }
 }
 </script>

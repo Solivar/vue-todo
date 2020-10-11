@@ -1,7 +1,7 @@
 <template>
   <ul>
     <li v-for="task in tasks" v-bind:key="task.id">
-      <TaskItem v-bind="task" />
+      <TaskItem v-bind="task" @deleteTask="deleteTask"/>
     </li>
   </ul>
 </template>
@@ -17,9 +17,20 @@ export default {
     tasks: {
       type: Array,
       default: () => [],
-      validator: task => {
-        return task.id && task.title;
+      validator: tasks => {
+        tasks.forEach(task => {
+          if (!task.id || !task.title) {
+            return false;
+          }
+        });
+
+        return true;
       }
+    }
+  },
+  methods: {
+    deleteTask: function(id) {
+      this.$emit('deleteTask', id)
     }
   }
 }

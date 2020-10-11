@@ -1,6 +1,7 @@
 <template>
   <div>
     <p>{{ title }}</p>
+    <button @click="deleteTask">X</button>
   </div>
 </template>
 
@@ -10,6 +11,11 @@ export default {
   props: {
     id: Number,
     title: String,
+  },
+  methods: {
+    deleteTask: function() {
+      this.$emit('deleteTask', this.id);
+    }
   }
 }
 </script>
