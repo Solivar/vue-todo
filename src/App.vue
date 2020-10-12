@@ -103,7 +103,8 @@ body {
 
 .container {
   margin: 0 10px;
-  width: 100%;
+  width: calc(100% - 20px);
+  box-sizing: border-box;
   max-width: 500px;
   background-color: #ffffff;
   border: 1px solid $grey;
