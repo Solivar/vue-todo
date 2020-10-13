@@ -32,7 +32,7 @@ export default {
       }
 
       if (this.title.length < 2 || this.title.length > 50) {
-        this.error = 'Task title is must be 2-50 characters long';
+        this.error = 'Task title must be 2-50 characters long';
 
         return;
       }
