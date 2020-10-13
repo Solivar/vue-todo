@@ -112,4 +112,8 @@ body {
   padding: 30px;
   box-shadow: 0px 10px 25px 0px rgba(0,0,0,0.2), 0px 5px 5px 0px rgba(0,0,0,0.1);
 }
+
+.error {
+  color: $red;
+}
 </style>

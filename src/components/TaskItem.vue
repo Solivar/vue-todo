@@ -8,17 +8,35 @@
     </div>
     <p
       class="title"
+      v-show="!isEditingEnabled"
       v-bind:class="{ striked: isCompleted }"
+      @click="toggleEditing"
     >
       {{ title }}
     </p>
-    <button @click="deleteTask">X</button>
+    <div class="task-edit" v-if="isEditingEnabled">
+      <TaskEditForm :title="title" @editTitle="editTitle" />
+    </div>
+    <div v-show="!isEditingEnabled" class="edit-container" @click="toggleEditing">
+      <button>Edit</button>
+    </div>
+    <button class="delete" @click="deleteTask">X</button>
   </div>
 </template>
 
 <script>
+import TaskEditForm from './TaskEditForm';
+
 export default {
   name: 'TaskItem',
+  components: {
+    TaskEditForm,
+  },
+  data: () => {
+    return {
+      isEditingEnabled: false,
+    };
+  },
   props: {
     id: Number,
     title: String,
@@ -30,6 +48,13 @@ export default {
     },
     toggleCompletion: function() {
       this.$emit('toggleCompletion', this.id);
+    },
+    toggleEditing: function() {
+      this.isEditingEnabled = !this.isEditingEnabled;
+    },
+    editTitle: function(newTitle) {
+      this.title = newTitle;
+      this.toggleEditing();
     }
   }
 }
@@ -45,6 +70,15 @@ export default {
   border: 1px solid $grey;
   border-radius: 5px;
   padding: 10px;
+  height: 41px;
+  box-sizing: border-box;
+  position: relative;
+
+  &:hover {
+    .edit-container {
+      opacity: 1;
+    }
+  }
 }
 
 .title {
@@ -74,21 +108,46 @@ p {
     margin: 0;
   }
 }
-
 button {
+  cursor: pointer;
+  font-weight: bold;
   border: none;
-  border-left: 1px solid $grey;
   color: $blue;
   background: none;
+}
+
+button.delete {
+  border-left: 1px solid $grey;
   padding: 0 10px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   margin: -10px -10px -10px 0;
-  font-weight: bold;
-  cursor: pointer;
 
   &:hover, &:active {
     color: $red;
+  }
+}
+
+.task-edit {
+  flex: 1 1 100%;
+}
+
+.edit-container {
+  opacity: 0;
+  position: absolute;
+  right: 30px;
+  color: $blue;
+
+  font-weight: bold;
+  display: inline-block;
+  width: auto;
+  text-align: center;
+  padding: 0;
+  background-color: #ffffff;
+
+  button {
+    text-transform: uppercase;
+    padding: 0 30px;
   }
 }
 </style>

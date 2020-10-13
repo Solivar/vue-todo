@@ -88,7 +88,6 @@ button {
 }
 
 .error {
-  color: $red;
   margin: 10px 0 0;
 }
 
@@ -98,7 +97,7 @@ button {
 
     label, input {
       flex: 1 1 100%;
-      margin-bottom: 10px;
+      margin: 0 0 10px;
     }
 
     button {
