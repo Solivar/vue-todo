@@ -8,6 +8,7 @@
         :tasks="tasks"
         @deleteTask="deleteTask"
         @toggleCompletion="toggleCompletion"
+        @updateTask="updateTask"
       />
     </div>
   </div>
@@ -64,7 +65,18 @@ export default {
         }
 
         return task;
-      })
+      });
+
+      this.tasks = tasks;
+    },
+    updateTask: function(updatedTask) {
+      const tasks = this.tasks.map(task => {
+        if (task.id === updatedTask.id) {
+          task = updatedTask;
+        }
+
+        return task;
+      });
 
       this.tasks = tasks;
     }

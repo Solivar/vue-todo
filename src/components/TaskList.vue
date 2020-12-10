@@ -1,9 +1,10 @@
 <template>
   <ul>
     <li v-for="task in tasks" :key="task.id">
-      <TaskItem v-bind="task"
+      <TaskItem :task="task"
         @deleteTask="deleteTask"
         @toggleCompletion="toggleCompletion"
+        @updateTask="updateTask"
       />
     </li>
   </ul>
@@ -37,6 +38,9 @@ export default {
     },
     toggleCompletion: function(id) {
       this.$emit('toggleCompletion', id);
+    },
+    updateTask: function(task) {
+      this.$emit('updateTask', task);
     }
   }
 }

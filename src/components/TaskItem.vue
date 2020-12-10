@@ -3,19 +3,19 @@
     <div class="completion">
       <input type="checkbox"
         @change="toggleCompletion"
-        v-model="isCompleted"
+        :checked="task.isCompleted"
       >
     </div>
     <p
       class="title"
       v-show="!isEditingEnabled"
-      v-bind:class="{ striked: isCompleted }"
+      v-bind:class="{ striked: task.isCompleted }"
       @click="toggleEditing"
     >
-      {{ title }}
+      {{ task.title }}
     </p>
     <div class="task-edit" v-if="isEditingEnabled">
-      <TaskEditForm :title="title" @editTitle="editTitle" />
+      <TaskEditForm :title="task.title" @editTitle="editTitle" />
     </div>
     <div v-show="!isEditingEnabled" class="edit-container" @click="toggleEditing">
       <button>Edit</button>
@@ -38,23 +38,27 @@ export default {
     };
   },
   props: {
-    id: Number,
-    title: String,
-    isCompleted: Boolean,
+    task: {
+      id: Number,
+      title: String,
+      isCompleted: Boolean,
+    }
   },
   methods: {
     deleteTask: function() {
-      this.$emit('deleteTask', this.id);
+      this.$emit('deleteTask', this.task.id);
     },
     toggleCompletion: function() {
-      this.$emit('toggleCompletion', this.id);
+      this.$emit('toggleCompletion', this.task.id);
     },
     toggleEditing: function() {
       this.isEditingEnabled = !this.isEditingEnabled;
     },
     editTitle: function(newTitle) {
-      this.title = newTitle;
+      const updatedTask = Object.assign({}, { ...this.task, title: newTitle });
+
       this.toggleEditing();
+      this.$emit('updateTask', updatedTask);
     }
   }
 }
